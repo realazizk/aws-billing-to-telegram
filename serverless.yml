@@ -1,4 +1,4 @@
-service: aws-billing-to-slack
+service: aws-billing-to-telegram
 
 plugins:
   - serverless-python-requirements
@@ -6,12 +6,13 @@ plugins:
 provider:
   name: aws
   runtime: python3.7
+  region: us-east-1
 
   iamRoleStatements:
-    - Effect: "Allow"
+    - Effect: 'Allow'
       Action:
-        - "ce:GetCostAndUsage"
-      Resource: "*"
+        - 'ce:GetCostAndUsage'
+      Resource: '*'
 
 functions:
   report_cost:
@@ -22,7 +23,10 @@ functions:
       - schedule: cron(0 15 * * ? *)
 
     environment:
-      SLACK_WEBHOOK_URL: ${opt:slack_url}
+      TELEGRAM_USER: ${opt:telegram_user}
+      TELEGRAM_BOT_TOKEN: ${opt:telegram_bot_token}
+      ACCESS_KEY: ${opt:access_key}
+      SECRET_KEY: ${opt:secret_key}
       CREDITS_EXPIRE_DATE: ${opt:credits_expire_date}
       CREDITS_REMAINING_AS_OF: ${opt:credits_remaining_date}
       CREDITS_REMAINING: ${opt:credits_remaining}
