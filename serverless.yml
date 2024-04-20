@@ -2,12 +2,22 @@ service: aws-billing-to-telegram
 
 plugins:
   - serverless-python-requirements
+  - serverless-dotenv-plugin
+
+useDotenv: true
 
 provider:
   name: aws
-  runtime: python3.7
+  runtime: python3.8
   region: us-east-1
-
+  environment:
+    TELEGRAM_USER: ${env:TELEGRAM_USER}
+    TELEGRAM_BOT_TOKEN: ${env:TELEGRAM_BOT_TOKEN}
+    ACCESS_KEY: ${env:ACCESS_KEY}
+    SECRET_KEY: ${env:SECRET_KEY}
+    CREDITS_EXPIRE_DATE: ${env:CREDITS_EXPIRE_DATE, ''}
+    CREDITS_REMAINING_AS_OF: ${env:CREDITS_REMAINING_AS_OF, ''}
+    CREDITS_REMAINING: ${env:CREDITS_REMAINING, ''}
   iamRoleStatements:
     - Effect: 'Allow'
       Action:
@@ -21,12 +31,3 @@ functions:
     events:
       # Every day at 15:00 UTC / 10am CDT
       - schedule: cron(0 15 * * ? *)
-
-    environment:
-      TELEGRAM_USER: ${opt:telegram_user}
-      TELEGRAM_BOT_TOKEN: ${opt:telegram_bot_token}
-      ACCESS_KEY: ${opt:access_key}
-      SECRET_KEY: ${opt:secret_key}
-      CREDITS_EXPIRE_DATE: ${opt:credits_expire_date}
-      CREDITS_REMAINING_AS_OF: ${opt:credits_remaining_date}
-      CREDITS_REMAINING: ${opt:credits_remaining}

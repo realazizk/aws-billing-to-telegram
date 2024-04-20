@@ -2,8 +2,8 @@
 	"name": "aws-billing-to-telegram",
 	"description": "",
 	"version": "0.1.0",
-	"dependencies": {},
 	"devDependencies": {
-		"serverless-python-requirements": "^5.1.0"
+		"serverless-dotenv-plugin": "^6.0.0",
+		"serverless-python-requirements": "^6.1.0"
 	}
 }
